@@ -22,7 +22,7 @@ import CoreGraphics
 public class ChartXAxisRenderer: ChartAxisRendererBase
 {
     public var xAxis: ChartXAxis?
-  
+    
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer)
@@ -204,7 +204,23 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                 }
                 
-                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                //当前界面是当日余额波动（X轴上至显示两个label）
+                if(xAxis.isTodayFluction == true){
+               
+//                    if(i == 0){
+//                        self.drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+//                        
+//                    }else if(i == xAxis.values.count - 1){
+//                        position.x -= 10
+//                        self.drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+//                    }
+                    
+                }else{
+                    
+                    drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                
+                }
+                
             }
         }
     }

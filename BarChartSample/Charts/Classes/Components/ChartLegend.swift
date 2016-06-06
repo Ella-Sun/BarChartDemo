@@ -174,7 +174,7 @@ public class ChartLegend: ChartComponentBase
                 
                 width += size.width
                 height += size.height
-                
+                //TODO: Y值
                 if (i < count - 1)
                 {
                     width += xEntrySpace

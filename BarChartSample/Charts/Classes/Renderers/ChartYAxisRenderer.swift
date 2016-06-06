@@ -170,8 +170,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         {
             return
         }
-        
-        let xoffset = yAxis.xOffset
+        //TODO:改变Y坐标的位置
+        let xoffset = yAxis.xOffset//*2
         let yoffset = yAxis.labelFont.lineHeight / 2.5 + yAxis.yOffset
         
         let dependency = yAxis.axisDependency
@@ -183,10 +183,11 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         if (dependency == .Left)
         {
+            //TODO:
             if (labelPosition == .OutsideChart)
             {//YAxis
                 textAlign = .Right
-                xPos = viewPortHandler.offsetLeft*0.8// - xoffset*2
+                xPos = viewPortHandler.offsetLeft - xoffset
             }
             else
             {
@@ -259,135 +260,58 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     /// draws the y-labels on the specified x-position
     internal func drawYLabels(context context: CGContext, fixedPosition: CGFloat, offset: CGFloat, textAlign: NSTextAlignment)
     {
-        ///Y轴坐标label
-        guard let yAxis = yAxis else { return }
-        
-        let labelFont = yAxis.labelFont
-        let labelTextColor = yAxis.labelTextColor
-        
-        let valueToPixelMatrix = transformer.valueToPixelMatrix
-        
-        var pt = CGPoint()
-        
-        for (var i = 0; i < yAxis.entryCount; i++)
-        {
-            let text = yAxis.getFormattedLabel(i)
+            guard let yAxis = yAxis else { return }
             
-            if (!yAxis.isDrawTopYLabelEntryEnabled && i >= yAxis.entryCount - 1)
-            {
-                break
+            let labelFont = yAxis.labelFont
+            let labelTextColor = yAxis.labelTextColor
+            
+            let valueToPixelMatrix = transformer.valueToPixelMatrix
+            
+            var pt = CGPoint()
+            
+            //TODO: 判断Y轴是否以万元为单位
+            var millCount = 0
+            var nonMillCount = 0
+            
+            for value in  yAxis.entries{
+                
+                let newValue = fabs(value)
+                if  newValue < 1000{
+                    nonMillCount += 1
+                } else {
+                    millCount += 1
+                }
             }
+            let isMillion = (millCount > nonMillCount) ? true : false
+        
             
-            pt.x = 0
-            pt.y = CGFloat(yAxis.entries[i])
-            pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
-            
-            pt.x = fixedPosition
-            pt.y += offset
-            //print:line 0 ... 800,000 ... 1,600,000 ...
-            //print:bar  -6000 $
-//            print(text)
-//            print(text.characters.count)
-            let newText = getBackNewTextFromYpiex(text: text)
-            ChartUtils.drawText(context: context, text: newText, point: pt, align: textAlign, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
-        }
+            for (var i = 0; i < yAxis.entryCount; i++)
+            {
+                let text = yAxis.getFormattedLabel(i)
+                
+                if (!yAxis.isDrawTopYLabelEntryEnabled && i >= yAxis.entryCount - 1)
+                {
+                    break
+                }
+                
+                pt.x = 0
+                pt.y = CGFloat(yAxis.entries[i])
+                pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                
+                pt.x = fixedPosition
+                pt.y += offset
+                
+                //TODO: 获取新的Y值
+                var newText = text
+                if isMillion {
+                    newText = getBackNewTextFromYpiex(text: text)
+                }
+                
+                ChartUtils.drawText(context: context, text: newText, point: pt, align: textAlign, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            }
+//        }
     }
     
-    /**
-     当数值大于万位，省略后边位数
-     */
-    public func getBackNewTextFromYpiex(text text: String) -> String
-    {
-        var newText = text
-        var len = text.characters.count;
-        
-        if len < 4 {
-            return newText
-        }
-        
-        let endWord: Character = text[text.endIndex.predecessor().predecessor()];
-        let startWord: Character = text[text.startIndex]
-        
-        if endWord == " " {
-            if startWord == "-" {
-                if len < 7{
-                    return newText
-                }
-            } else {
-                if len < 6 {
-                    return newText
-                }
-            }
-        } else {
-            if startWord == "-" {
-                if len < 5{
-                    return newText
-                }
-            } else {
-                if len < 4 {
-                    return newText
-                }
-            }
-        }
-        
-        //如果最后一位不是数字——>向前走两位
-//        let exclamationMark: Character = text[text.endIndex.predecessor().predecessor()];
-        if endWord == " " {
-            //①6000 $ 6
-            let fRang = newText.endIndex.advancedBy(-2)..<newText.endIndex
-            let lastWord = newText[fRang]
-            newText.removeRange(fRang)
-            
-            len = newText.characters.count
-            
-            let sRang = newText.endIndex.advancedBy(-3)..<newText.endIndex
-            newText.removeRange(sRang)
-            
-            let tRang = newText.endIndex.advancedBy(-1)..<newText.endIndex
-            let sLastWord : String = newText[tRang]
-            newText.removeRange(tRang)
-            
-            if (startWord == "-") {
-                if len == 5 {
-                    newText += "0"
-                }
-            } else {
-                if len == 4 {
-                    newText += "0"
-                }
-            }
-            
-            newText = newText + "." + sLastWord + lastWord
-            
-        } else {
-            //②430，000
-            let rRang = newText.endIndex.advancedBy(-3)..<newText.endIndex
-            newText.removeRange(rRang)
-            
-            let tRang = newText.endIndex.advancedBy(-1)..<newText.endIndex
-            let sLastWord : String = newText[tRang]
-            if sLastWord == "," {
-                newText.removeRange(tRang)
-            }
-            let ttRang = newText.endIndex.advancedBy(-1)..<newText.endIndex
-            let sNewLastWord : String = newText[ttRang]
-            newText.removeRange(ttRang)
-            print(newText)
-            len = newText.characters.count
-            if (startWord == "-") {
-                if len <= 2 {
-                    newText += "0"
-                }
-            } else {
-                if len <= 1 {
-                    newText += "0"
-                }
-            }
-            newText = newText + "." + sNewLastWord
-        }
-        print(newText)
-        return newText
-    }
     
     private var _gridLineBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     

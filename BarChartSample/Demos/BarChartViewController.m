@@ -14,6 +14,9 @@
 #import "BarChartViewController.h"
 #import "BarChartSample-Swift.h"
 
+//#import "SwizzleMethod+NSObject.h"
+//#import "NSObject+Swizzle.h"
+
 @interface BarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BarChartView *chartView;
@@ -115,6 +118,8 @@
     _sliderX.value = 11.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
+    
+//    [SwizzleMethod swizzleMethods:[BarChartRenderer class] ToClass:[BrokenLine class] originalSelector:@selector(drawHighlightedWithContext:indices:) swizzledSelector:@selector(drawBrokenLineWithContext:indices:)];
 }
 
 /**
@@ -286,6 +291,7 @@
     NSLog(@"---entry:%@\n",entry);//ChartDataEntry, xIndex: 9, value -20.0
     NSLog(@"---dataSetIndex:%ld\n",dataSetIndex);//当一组中有多个柱子时，显示柱子在组中的下标
     NSLog(@"---highlight:%@\n",highlight);//Highlight, xIndex: 9, dataSetIndex: 0, stackIndex (only stacked barentry): -1
+//    [BarChartRenderer swizzleSelector:@selector(drawHighlightedWithContext:indices:) withSelector:@selector(drawBrokenLineWithContext:indices:)];
 }
 
 /**

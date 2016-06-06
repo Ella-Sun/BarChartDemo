@@ -25,7 +25,7 @@
 @property (nonatomic, strong) IBOutlet NSArray *options;
 
 
-//TODO: gy
+//TODO: 
 @property (nonatomic, assign) BOOL shouldHideData;
 
 - (void)handleOption:(NSString *)key forChartView:(ChartViewBase *)chartView;

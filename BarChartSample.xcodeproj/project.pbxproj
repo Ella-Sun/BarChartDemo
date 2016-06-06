@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5C1224981CAA78FE00B8E23B /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1224961CAA78FE00B8E23B /* PieChartViewController.m */; };
 		5C1224991CAA78FE00B8E23B /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C1224971CAA78FE00B8E23B /* PieChartViewController.xib */; };
+		5C5AE58E1D002D7400CAE51B /* NSObject+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5AE58D1D002D7400CAE51B /* NSObject+Swizzle.m */; };
+		5CE191E41CFD9B1A00A23C97 /* SwizzleMethod+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE191E31CFD9B1A00A23C97 /* SwizzleMethod+NSObject.m */; };
 		5CE55B6C1C9BF3FF00BA3071 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE55B6B1C9BF3FF00BA3071 /* main.m */; };
 		5CE55B6F1C9BF3FF00BA3071 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE55B6E1C9BF3FF00BA3071 /* AppDelegate.m */; };
 		5CE55B751C9BF3FF00BA3071 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CE55B731C9BF3FF00BA3071 /* Main.storyboard */; };
@@ -89,6 +91,10 @@
 		5C1224951CAA78FE00B8E23B /* PieChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartViewController.h; sourceTree = "<group>"; };
 		5C1224961CAA78FE00B8E23B /* PieChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartViewController.m; sourceTree = "<group>"; };
 		5C1224971CAA78FE00B8E23B /* PieChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartViewController.xib; sourceTree = "<group>"; };
+		5C5AE58C1D002D7400CAE51B /* NSObject+Swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzle.h"; sourceTree = "<group>"; };
+		5C5AE58D1D002D7400CAE51B /* NSObject+Swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzle.m"; sourceTree = "<group>"; };
+		5CE191E21CFD9B1A00A23C97 /* SwizzleMethod+NSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwizzleMethod+NSObject.h"; sourceTree = "<group>"; };
+		5CE191E31CFD9B1A00A23C97 /* SwizzleMethod+NSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SwizzleMethod+NSObject.m"; sourceTree = "<group>"; };
 		5CE55B671C9BF3FF00BA3071 /* BarChartSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarChartSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE55B6B1C9BF3FF00BA3071 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5CE55B6D1C9BF3FF00BA3071 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -156,6 +162,10 @@
 			children = (
 				5CE55B6D1C9BF3FF00BA3071 /* AppDelegate.h */,
 				5CE55B6E1C9BF3FF00BA3071 /* AppDelegate.m */,
+				5CE191E21CFD9B1A00A23C97 /* SwizzleMethod+NSObject.h */,
+				5CE191E31CFD9B1A00A23C97 /* SwizzleMethod+NSObject.m */,
+				5C5AE58C1D002D7400CAE51B /* NSObject+Swizzle.h */,
+				5C5AE58D1D002D7400CAE51B /* NSObject+Swizzle.m */,
 				5CE55B9D1C9BFD1C00BA3071 /* DemoBaseViewController.h */,
 				5CE55B9E1C9BFD1C00BA3071 /* DemoBaseViewController.m */,
 				5CE55B9F1C9BFD1C00BA3071 /* DemoListViewController.h */,
@@ -348,10 +358,12 @@
 				5CE55B6F1C9BF3FF00BA3071 /* AppDelegate.m in Sources */,
 				5CE55B6C1C9BF3FF00BA3071 /* main.m in Sources */,
 				5CE55BE01C9BFD1D00BA3071 /* BarChartViewController.m in Sources */,
+				5C5AE58E1D002D7400CAE51B /* NSObject+Swizzle.m in Sources */,
 				5CE55BDC1C9BFD1D00BA3071 /* DemoListViewController.m in Sources */,
 				5CE55BF01C9BFD1D00BA3071 /* LineChart2ViewController.m in Sources */,
 				5CE55BD91C9BFD1D00BA3071 /* BalloonMarker.swift in Sources */,
 				5C1224981CAA78FE00B8E23B /* PieChartViewController.m in Sources */,
+				5CE191E41CFD9B1A00A23C97 /* SwizzleMethod+NSObject.m in Sources */,
 				5CE55BEE1C9BFD1D00BA3071 /* LineChart1ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

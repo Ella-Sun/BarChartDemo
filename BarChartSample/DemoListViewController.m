@@ -17,6 +17,7 @@
 #import "BarChartViewController.h"
 #import "MultipleBarChartViewController.h"
 #import "PieChartViewController.h"
+#import "BarChartSample-Swift.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
