@@ -16,6 +16,7 @@ import CoreGraphics
 
 public class ChartDataRendererBase: ChartRendererBase
 {
+    //TODO: 添加按钮
     public var centerButton: YZButton?
     public var animator: ChartAnimator?
     

@@ -123,14 +123,14 @@
     for (int i = 0; i < count; i++)
     {
         double mult = range / 2.0;
-        double val = (double) (arc4random_uniform(mult)) + 45;
+        double val = (double) (arc4random_uniform(mult)) * 50;
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     for (int i = 0; i < count; i++)
     {
         double mult = range;
-        double val = (double) (arc4random_uniform(mult)) + 45;
+        double val = (double) (arc4random_uniform(mult)) * 45;
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     

@@ -171,7 +171,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             return
         }
         //TODO:改变Y坐标的位置
-        let xoffset = yAxis.xOffset//*2
+        let xoffset = yAxis.xOffset// * 2
         let yoffset = yAxis.labelFont.lineHeight / 2.5 + yAxis.yOffset
         
         let dependency = yAxis.axisDependency

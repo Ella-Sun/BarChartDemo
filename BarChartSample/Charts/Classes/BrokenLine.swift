@@ -8,8 +8,6 @@
 
 import Foundation
 
-//public class BrokenLine: BarChartRenderer
-//{
 extension BarChartRenderer
 {
 //    public override static func initialize() {
@@ -41,7 +39,7 @@ extension BarChartRenderer
     
 
     func drawBrokenLine(context: CGContext, dataProvider: BarChartDataProvider,set: IBarChartDataSet, barData: BarChartData, index: Int, y1: Double, y2: Double, x: CGFloat) {
-//        print("line-success")
+
         //TODO: 构建柱子中间的虚线，默认情况下显示虚线
         var _highlightPointBuffer = CGPoint()
         

@@ -29,6 +29,38 @@
 
 @implementation BarChartViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    // 柱状图被缩放了
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(autoScaleMinMaxEnabled:) name:@"autoScaleMinMaxEnabled" object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+/**
+ * 柱状图缩放
+ */
+- (void)autoScaleMinMaxEnabled:(NSNotification *)noti{
+    
+    NSDictionary *dict = noti.object;
+    for (id<IChartDataSet> set in _chartView.data.dataSets)
+    {
+        if([dict[@"low"] intValue] == 0){
+            set.drawValuesEnabled = NO;
+        } else {
+            set.drawValuesEnabled = YES;
+        }
+    }
+    
+//    [_chartView setNeedsDisplay];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -151,9 +183,9 @@
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
         if (i%3 == 2) {
-            val = -val*100;
+            val = -val*10088;
         } else {
-            val *= 800;
+            val *= 8808;
         }
         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
@@ -176,6 +208,7 @@
     set1.barSpace = 0.35;
     set1.highlightLineWidth = 1.5;
     set1.highlightLineDashLengths = @[@15.0f,@12.0f];
+    set1.drawValuesEnabled = NO;
     /**<  是否显示柱状图的详细数据  >**/
 //    set1.drawValuesEnabled = NO;
     
@@ -287,21 +320,29 @@
  */
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
-    NSLog(@"---chartView：%@\n",chartView);//frame = (0 47; 375 437);
-    NSLog(@"---entry:%@\n",entry);//ChartDataEntry, xIndex: 9, value -20.0
-    NSLog(@"---dataSetIndex:%ld\n",dataSetIndex);//当一组中有多个柱子时，显示柱子在组中的下标
-    NSLog(@"---highlight:%@\n",highlight);//Highlight, xIndex: 9, dataSetIndex: 0, stackIndex (only stacked barentry): -1
+//    NSLog(@"---chartView：%@\n",chartView);//frame = (0 47; 375 437);
+//    NSLog(@"---entry:%@\n",entry);//ChartDataEntry, xIndex: 9, value -20.0
+//    NSLog(@"---dataSetIndex:%ld\n",dataSetIndex);//当一组中有多个柱子时，显示柱子在组中的下标
+//    NSLog(@"---highlight:%@\n",highlight);//Highlight, xIndex: 9, dataSetIndex: 0, stackIndex (only stacked barentry): -1
 //    [BarChartRenderer swizzleSelector:@selector(drawHighlightedWithContext:indices:) withSelector:@selector(drawBrokenLineWithContext:indices:)];
 }
 
 /**
- *  连续两次点击柱子，第二次点击时
+ *  第二次点击同一个柱子
  *
  *  @param chartView 所点击的图表
  */
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
 {
     NSLog(@"chartValueNothingSelected");
+}
+
+- (void)chartScaled:(ChartViewBase *)chartView scaleX:(CGFloat)scaleX scaleY:(CGFloat)scaleY {
+    NSLog(@"chartScaled");
+}
+
+- (void)chartTranslated:(ChartViewBase *)chartView dX:(CGFloat)dX dY:(CGFloat)dY {
+    NSLog(@"chartTranslated");
 }
 
 @end

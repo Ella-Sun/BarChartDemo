@@ -58,7 +58,6 @@ public class LineChartRenderer: LineRadarChartRenderer
         {
             return
         }
-        //todo:画虚线
         CGContextSaveGState(context)
         
         CGContextSetLineWidth(context, dataSet.lineWidth)
@@ -653,7 +652,6 @@ public class LineChartRenderer: LineRadarChartRenderer
             {
                 continue
             }
-            //todo:画虚线
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             CGContextSetLineWidth(context, set.highlightLineWidth)
             if (set.highlightLineDashLengths != nil)

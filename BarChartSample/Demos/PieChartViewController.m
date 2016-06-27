@@ -11,9 +11,10 @@
 //  https://github.com/danielgindi/ios-charts
 //
 /**
- 导入Charts 框架步骤：1， 将Charts文件夹复制到新项目目录下，将Charts。xcodeproj脱到新项目中
+ 导入Charts 框架步骤：
+ 1， 将Charts文件夹复制到新项目目录下，将Charts。xcodeproj脱到新项目中
  2， 将新项目中 BuildSettings 中把 defines module 设为 YES 把 product module 设置为项目工程的名字。
- 3， 生成一个。swift文件 并确定桥接
+ 3， 新建一个。swift文件 并确定桥接
  4， 在项目的 general -》Embedded binaries中添加Charts。frameWorks包
  5， 在需要用到的 。m文件中导入 imoprt“项目名-Swift。h”
  6,  imoprt“项目名-Swift。h” 点进去后再适当的位置添加 @import Charts
@@ -75,6 +76,7 @@
     // 饼状图旋转动画
     [_chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
     
+    //TODO: 新增
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(centerPieBtnDidClicked) name:@"centerBtnDidClicked" object:nil];
 }
 
@@ -252,6 +254,7 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
+    //让饼状图旋转
     double angles = ([_chartView.absoluteAngles[entry.xIndex] longLongValue])/2;
     
     if(entry.xIndex > 0)
@@ -259,8 +262,6 @@
         angles = angles-([_chartView.absoluteAngles[entry.xIndex-1] longLongValue])/2;
         angles = angles + [_chartView.absoluteAngles[entry.xIndex-1] longLongValue];
     }
-//    angles += _chartView.rotationAngle;
-//    angles = (int)angles % 360;
     NSLog(@"-----%lf",angles);
     
     if(270.0 <= angles && angles <= 360.0){
@@ -270,13 +271,41 @@
         
         angles = 90 - angles;
     }
-//    angles = 90 - angles;
-    [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle toAngle:angles];
-    NSLog(@"=======%lf =======%lf",angles,_chartView.rotationAngle);
+
+    if (_chartView.rotationAngle != 0) {
+        float newAngles = angles - _chartView.rotationAngle;
+        
+        if (newAngles >= 180){
+            [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                                 toAngle:_chartView.rotationAngle - (360 - newAngles)
+                            easingOption:ChartEasingOptionEaseInCubic];
+            
+        } else if (newAngles <= -180){
+            [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                                 toAngle:_chartView.rotationAngle + (360 + newAngles)
+                            easingOption:ChartEasingOptionEaseInCubic];
+            
+        } else if (newAngles > -180 && newAngles < 0){
+            [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                                 toAngle:_chartView.rotationAngle + newAngles
+                            easingOption:ChartEasingOptionEaseInCubic];
+            
+        } else if (newAngles < 180 && newAngles > 0){
+            [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                                 toAngle:_chartView.rotationAngle + newAngles
+                            easingOption:ChartEasingOptionEaseInCubic];
+            
+        } else {
+            [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                                 toAngle:angles
+                            easingOption:ChartEasingOptionEaseInCubic];
+        }
+    } else {
+        [_chartView spinWithDuration:1.0 fromAngle:_chartView.rotationAngle
+                             toAngle:angles
+                        easingOption:ChartEasingOptionEaseInCubic];
+    }
     
-//    NSLog(@"********chartView=%@***********,********entry=%@***********,********dataSetIndex=%zd********,**********highlight=%@************",chartView,entry,dataSetIndex,highlight);
-    
-    NSLog(@"chartValueSelected");
 }
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView

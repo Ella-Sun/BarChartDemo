@@ -435,7 +435,8 @@ public class PieChartRenderer: ChartDataRendererBase
                     CGContextSetFillColorWithColor(context, chart.holeColor!.CGColor)
                     CGContextFillEllipseInRect(context, CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
                     
-                   // 在所画的中间圆上覆盖一个按钮
+                   //TODO: 在所画的中间圆上覆盖一个按钮
+                    /*
                     if(centerButton == nil){
                         
                         centerButton = YZButton()
@@ -459,7 +460,14 @@ public class PieChartRenderer: ChartDataRendererBase
                         
                         chart.addSubview(centerButton!)
                     }
+ */
                 }
+            }
+            
+            //TODO:中间按钮的点击事件发出通知
+            func centerBtnDidClicked(){
+                NSNotificationCenter.defaultCenter().postNotificationName("centerBtnDidClicked", object: nil);
+                
             }
             
             // only draw the circle if it can be seen (not covered by the hole)
@@ -495,11 +503,7 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    //中间按钮的点击事件发出通知
-    func centerBtnDidClicked(){
-    NSNotificationCenter.defaultCenter().postNotificationName("centerBtnDidClicked", object: nil);
-        
-    }
+    
     
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(context context: CGContext)

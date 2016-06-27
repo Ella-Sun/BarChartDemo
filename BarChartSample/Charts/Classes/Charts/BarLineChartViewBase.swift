@@ -73,12 +73,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     internal var _xAxisRenderer: ChartXAxisRenderer!
     
-    internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
-    internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
+    internal var _tapGestureRecognizer: NSUITapGestureRecognizer!//单击
+    internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!//双击
     #if !os(tvOS)
-    internal var _pinchGestureRecognizer: NSUIPinchGestureRecognizer!
+    internal var _pinchGestureRecognizer: NSUIPinchGestureRecognizer!//缩放
     #endif
-    internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
+    internal var _panGestureRecognizer: NSUIPanGestureRecognizer!//拖动
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
@@ -207,6 +207,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             let lowestVisibleXIndex = self.lowestVisibleXIndex,
                 highestVisibleXIndex = self.highestVisibleXIndex
+            
+            //TODO: 此处增加通知将缩放比例传到controller监听柱状图的缩放
+            let dict = ["low":lowestVisibleXIndex , "hight":highestVisibleXIndex]
+            // 发通知告诉外面柱状图比例有变化
+            NSNotificationCenter.defaultCenter().postNotificationName("autoScaleMinMaxEnabled", object: dict)
             
             if (_autoScaleLastLowestVisibleXIndex == nil || _autoScaleLastLowestVisibleXIndex != lowestVisibleXIndex ||
                 _autoScaleLastHighestVisibleXIndex == nil || _autoScaleLastHighestVisibleXIndex != highestVisibleXIndex)

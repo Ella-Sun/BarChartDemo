@@ -10,15 +10,6 @@ import Foundation
 
 extension ChartYAxisRenderer
 {
-    func generateDefaultValueFormatter() -> NSNumberFormatter
-    {
-        let formatter = NSNumberFormatter()
-        formatter.minimumIntegerDigits = 1
-        formatter.maximumFractionDigits = 1
-        formatter.minimumFractionDigits = 1
-        formatter.usesGroupingSeparator = true
-        return formatter
-    }
     //TODO:当数值大于万位，省略后边位数
     public func getBackNewTextFromYpiex(text text: String) -> String
     {
@@ -28,21 +19,6 @@ extension ChartYAxisRenderer
         var newText: String = text
         newText = newText.stringByReplacingOccurrencesOfString(",", withString: "")
         newText = newText.stringByReplacingOccurrencesOfString("-", withString: "")
-        
-        /*千分位
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let numText = formatter.numberFromString(newText)
-        
-        newText = (numText?.stringValue)!
-        if startWord == "-" {
-            newText = "-" + newText
-        }
-        
-        return newText
-        */
-        
 
         let len = newText.characters.count;
         

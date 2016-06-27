@@ -77,20 +77,22 @@ public class ChartColorTemplates: NSObject
     public class func vordiplom () -> [NSUIColor]
     {
         //TODO: 饼状图
+        let pieColors: [NSUIColor] = self.pieColorMarket()
+        return pieColors
+        /*
         return [
-            /*
             NSUIColor(red: 192/255.0, green: 255/255.0, blue: 140/255.0, alpha: 1.0),
             NSUIColor(red: 255/255.0, green: 247/255.0, blue: 140/255.0, alpha: 1.0),
             NSUIColor(red: 255/255.0, green: 208/255.0, blue: 140/255.0, alpha: 1.0),
             NSUIColor(red: 140/255.0, green: 234/255.0, blue: 255/255.0, alpha: 1.0),
             NSUIColor(red: 255/255.0, green: 140/255.0, blue: 157/255.0, alpha: 1.0)
- */
             NSUIColor(red: 69/255.0, green: 193/255.0, blue: 51/255.0, alpha: 1.0),
             NSUIColor(red: 117/255.0, green: 211/255.0, blue: 34/255.0, alpha: 1.0),
             NSUIColor(red: 177/255.0, green: 244/255.0, blue: 63/255.0, alpha: 1.0),
             NSUIColor(red: 255/255.0, green: 194/255.0, blue: 57/255.0, alpha: 1.0),
             NSUIColor(red: 255/255.0, green: 148/255.0, blue: 8/255.0, alpha: 1.0)
         ]
+         */
     }
     
     public class func colorFromString(colorString: String) -> NSUIColor

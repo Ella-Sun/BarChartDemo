@@ -26,7 +26,7 @@ public class ChartXAxis: ChartAxisBase
         case TopInside
         case BottomInside
     }
-    //如果是当日折线图界面
+    //TODO:如果是当日折线图界面
     public var isTodayFluction = Bool(false)
     
     public var values = [String?]()

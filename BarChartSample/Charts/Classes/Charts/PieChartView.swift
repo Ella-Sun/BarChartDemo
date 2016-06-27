@@ -184,7 +184,7 @@ public class PieChartView: PieRadarChartViewBase
         
         var dataSets = data.dataSets
 
-        var cnt = 0
+//        var cnt = 0
 
         for (var i = 0; i < data.dataSetCount; i++)
         {
@@ -197,17 +197,68 @@ public class PieChartView: PieRadarChartViewBase
                 
                 _drawAngles.append(calcAngle(abs(e.value), yValueSum: yValueSum))
 
-                if (cnt == 0)
-                {
-                    _absoluteAngles.append(_drawAngles[cnt])
-                }
-                else
-                {
-                    _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
-                }
-
-                cnt++
+//                if (cnt == 0)
+//                {
+//                    _absoluteAngles.append(_drawAngles[cnt])
+//                }
+//                else
+//                {
+//                    _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
+//                }
+//
+//                cnt++
             }
+        }
+        //TODO: 修改
+        var maxAngle = _drawAngles[0]
+        var minAngle = _drawAngles[_drawAngles.count - 1]
+        let count = _drawAngles.count
+        var maxIndex = 0
+        var minIndex = 0
+        
+        for (var l = 0;l < count;l++){
+            
+            for (var k = 0;k < count; k++){
+                
+                maxAngle = _drawAngles[k] > maxAngle ?  _drawAngles[k] : maxAngle
+                for (var a = 0; a < count; a++) {
+                    if(_drawAngles[a] == maxAngle){
+                        maxIndex = a;
+                        break;
+                    }
+                }
+                minAngle = _drawAngles[k] < minAngle ?  _drawAngles[k] : minAngle
+                for (var b = 0; b < count; b++) {
+                    
+                    if(_drawAngles[b] == minAngle){
+                        minIndex = b;
+                        break;
+                    }
+                }
+            }
+            
+            if(minAngle < 18){
+                maxAngle = maxAngle - 18 + minAngle
+                minAngle = 18
+                _drawAngles[maxIndex] = maxAngle
+                _drawAngles[minIndex] = minAngle
+            }
+        }
+        
+        var ct = 0
+        
+        for (var j = 0; j < count; j++)
+        {
+            if (ct == 0)
+            {
+                _absoluteAngles.append(_drawAngles[ct])
+            }
+            else
+            {
+                _absoluteAngles.append(_absoluteAngles[ct - 1] + _drawAngles[ct])
+            }
+            
+            ct++
         }
     }
     

@@ -23,6 +23,7 @@ public class BalloonMarker: ChartMarker
     public var insets = UIEdgeInsets()
     public var minimumSize = CGSize()
     public var barDescription = NSMutableArray()
+    public var lineDateDescription = NSMutableArray()
     
     private var labelns: NSString?
     private var _labelSize: CGSize = CGSize()
@@ -69,36 +70,36 @@ public class BalloonMarker: ChartMarker
         CGContextBeginPath(context)
         //left up
         CGContextMoveToPoint(context,
-            newXpiex,
-            rect.origin.y)
+                             newXpiex,
+                             rect.origin.y)
         //right up
         CGContextAddLineToPoint(context,
-            newXpiex + rect.size.width,
-            rect.origin.y)
+                                newXpiex + rect.size.width,
+                                rect.origin.y)
         //right down
         CGContextAddLineToPoint(context,
-            newXpiex + rect.size.width,
-            rect.origin.y + rect.size.height - arrowSize.height)
+                                newXpiex + rect.size.width,
+                                rect.origin.y + rect.size.height - arrowSize.height)
         //center point right
         CGContextAddLineToPoint(context,
-            rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-            rect.origin.y + rect.size.height - arrowSize.height)
+                                rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
+                                rect.origin.y + rect.size.height - arrowSize.height)
         //center point
         CGContextAddLineToPoint(context,
-            rect.origin.x + rect.size.width / 2.0,
-            rect.origin.y + rect.size.height)
+                                rect.origin.x + rect.size.width / 2.0,
+                                rect.origin.y + rect.size.height)
         //center point left
         CGContextAddLineToPoint(context,
-            rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-            rect.origin.y + rect.size.height - arrowSize.height)
+                                rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
+                                rect.origin.y + rect.size.height - arrowSize.height)
         //left down
         CGContextAddLineToPoint(context,
-            newXpiex,
-            rect.origin.y + rect.size.height - arrowSize.height)
+                                newXpiex,
+                                rect.origin.y + rect.size.height - arrowSize.height)
         //left up
         CGContextAddLineToPoint(context,
-            newXpiex,
-            rect.origin.y)
+                                newXpiex,
+                                rect.origin.y)
         CGContextFillPath(context)
         
         rect.origin.y += self.insets.top
@@ -120,10 +121,8 @@ public class BalloonMarker: ChartMarker
     
     public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
-        print(entry)
-        print(highlight)
-        
         let isGroup = highlight.dataSetIndex
+        print(isGroup)
         let xIndex = highlight.xIndex
         let detailDes: [NSString]
         var text: NSString = ""
@@ -139,6 +138,11 @@ public class BalloonMarker: ChartMarker
             }
         }
         
+        if(self.lineDateDescription.count > 0){
+            text = lineDateDescription[xIndex] as! NSString
+            text =  (text as String) + "\n"
+        }
+        
         let label = (text as String) + entry.value.description
         labelns = label as NSString
         
@@ -149,6 +153,9 @@ public class BalloonMarker: ChartMarker
         _labelSize = labelns?.sizeWithAttributes(_drawAttributes) ?? CGSizeZero
         _size.width = _labelSize.width + self.insets.left + self.insets.right
         _size.height = _labelSize.height + self.insets.top + self.insets.bottom
+        if(self.lineDateDescription.count > 0){
+            _size.height += 6
+        }
         _size.width = max(minimumSize.width, _size.width)
         _size.height = max(minimumSize.height, _size.height)
     }

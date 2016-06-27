@@ -104,7 +104,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         {
             return
         }
-        //todo:画虚线
+        
         CGContextSaveGState(context)
         
         CGContextSetStrokeColorWithColor(context, xAxis.axisLineColor.CGColor)
@@ -203,21 +203,10 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                         position.x += width / 2.0
                     }
                 }
-                
-                //当前界面是当日余额波动（X轴上至显示两个label）
-                if(xAxis.isTodayFluction == true){
+                //TODO:当前界面是当日余额波动（X轴上至显示两个label）
+                if(!xAxis.isTodayFluction){
                
-//                    if(i == 0){
-//                        self.drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
-//                        
-//                    }else if(i == xAxis.values.count - 1){
-//                        position.x -= 10
-//                        self.drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
-//                    }
-                    
-                }else{
-                    
-                    drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                    drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)                    
                 
                 }
                 
@@ -329,7 +318,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop
         _limitLineSegmentsBuffer[1].x = position.x
         _limitLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-        //todo:画虚线
+        
         CGContextSetStrokeColorWithColor(context, limitLine.lineColor.CGColor)
         CGContextSetLineWidth(context, limitLine.lineWidth)
         if (limitLine.lineDashLengths != nil)
