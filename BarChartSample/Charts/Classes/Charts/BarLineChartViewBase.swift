@@ -208,11 +208,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             let lowestVisibleXIndex = self.lowestVisibleXIndex,
                 highestVisibleXIndex = self.highestVisibleXIndex
             
-            //TODO: 此处增加通知将缩放比例传到controller监听柱状图的缩放
-            let dict = ["low":lowestVisibleXIndex , "hight":highestVisibleXIndex]
-            // 发通知告诉外面柱状图比例有变化
-            NSNotificationCenter.defaultCenter().postNotificationName("autoScaleMinMaxEnabled", object: dict)
-            
             if (_autoScaleLastLowestVisibleXIndex == nil || _autoScaleLastLowestVisibleXIndex != lowestVisibleXIndex ||
                 _autoScaleLastHighestVisibleXIndex == nil || _autoScaleLastHighestVisibleXIndex != highestVisibleXIndex)
             {
@@ -721,6 +716,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 if canZoomMoreX || canZoomMoreY
                 {
                     var location = recognizer.locationInView(self)
+                    
                     location.x = location.x - _viewPortHandler.offsetLeft
 
                     if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
@@ -743,6 +739,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
                     
                     _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+                    
+                    //TODO:
+                    let lowestVisibleXIndex = self.lowestVisibleXIndex
+                    // 发通知告诉外面柱状图比例有变化
+                    NSNotificationCenter.defaultCenter().postNotificationName("autoScaleMinMaxEnabled", object: lowestVisibleXIndex)
                     
                     if (delegate !== nil)
                     {

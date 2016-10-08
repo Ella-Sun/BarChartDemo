@@ -204,7 +204,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                 }
                 //TODO:当前界面是当日余额波动（X轴上至显示两个label）
-                if(!xAxis.isTodayFluction){
+                if(!xAxis.xLabelHidden){
                
                     drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)                    
                 

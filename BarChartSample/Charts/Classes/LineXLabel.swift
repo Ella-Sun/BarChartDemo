@@ -7,3 +7,23 @@
 //
 
 import Foundation
+
+private var _xLabelHidden = false
+
+extension ChartXAxis
+{
+    public var xLabelHidden: Bool
+        {
+        get
+        {
+            return _xLabelHidden
+        }
+        set
+        {
+            if (_xLabelHidden != newValue)
+            {
+                _xLabelHidden = newValue
+            }
+        }
+    }
+}

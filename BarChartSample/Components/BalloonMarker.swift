@@ -122,7 +122,6 @@ public class BalloonMarker: ChartMarker
     public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
         let isGroup = highlight.dataSetIndex
-        print(isGroup)
         let xIndex = highlight.xIndex
         let detailDes: [NSString]
         var text: NSString = ""

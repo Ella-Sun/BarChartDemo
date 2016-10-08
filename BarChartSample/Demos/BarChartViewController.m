@@ -25,6 +25,10 @@
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
 
+@property (nonatomic, assign) BOOL isFirstIN;
+@property (nonatomic, assign) CGFloat sumXoffset;
+@property (nonatomic, assign) CGFloat sumYoffset;
+
 @end
 
 @implementation BarChartViewController
@@ -48,10 +52,10 @@
  */
 - (void)autoScaleMinMaxEnabled:(NSNotification *)noti{
     
-    NSDictionary *dict = noti.object;
+    NSInteger low = [noti.object integerValue];
     for (id<IChartDataSet> set in _chartView.data.dataSets)
     {
-        if([dict[@"low"] intValue] == 0){
+        if(low == 0){
             set.drawValuesEnabled = NO;
         } else {
             set.drawValuesEnabled = YES;
@@ -66,6 +70,9 @@
     [super viewDidLoad];
     
     self.title = @"Bar Chart";
+    self.isFirstIN = YES;
+    self.sumXoffset = 0.0;
+    self.sumYoffset = 0.0;
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -97,10 +104,15 @@
     _chartView.drawHighlightArrowEnabled = YES;
     
     /**<  只能单独放大一个方向的坐标  >**/
-//    _chartView.pinchZoomEnabled = NO;
+    _chartView.pinchZoomEnabled = YES;
+    /**<  最大放大倍数  >**/
+    [_chartView.viewPortHandler setMaximumScaleY:2.f];
+    [_chartView.viewPortHandler setMaximumScaleX:2.f];
     
     /**<  启用自动缩放的标志  >**/
     _chartView.autoScaleMinMaxEnabled = YES;
+    
+    _chartView.xAxis.xLabelHidden = YES;
     
     /**<  X轴坐标  >**/
     ChartXAxis *xAxis = _chartView.xAxis;
@@ -118,11 +130,7 @@
 //    leftAxis.startAtZeroEnabled = YES;
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    leftAxis.labelCount = 8;
-    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
-    leftAxis.valueFormatter.maximumFractionDigits = 1;
-//    leftAxis.valueFormatter.negativeSuffix = @" $";
-//    leftAxis.valueFormatter.positiveSuffix = @" $";
+    leftAxis.labelCount = 5;
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
     
@@ -337,12 +345,16 @@
     NSLog(@"chartValueNothingSelected");
 }
 
+//- (void)chartScaled:(ChartViewBase *)chartView scaleX:(CGFloat)scaleX scaleY:(CGFloat)scaleY {
+//    NSLog(@"chartScaled");
+//}
+
 - (void)chartScaled:(ChartViewBase *)chartView scaleX:(CGFloat)scaleX scaleY:(CGFloat)scaleY {
-    NSLog(@"chartScaled");
+    
 }
 
 - (void)chartTranslated:(ChartViewBase *)chartView dX:(CGFloat)dX dY:(CGFloat)dY {
-    NSLog(@"chartTranslated");
+//    NSLog(@"chartTranslated");
 }
 
 @end

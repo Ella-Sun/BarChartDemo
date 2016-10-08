@@ -230,7 +230,7 @@ public class ChartYAxis: ChartAxisBase
         let label = getLongestLabel() as NSString
         var size = label.sizeWithAttributes([NSFontAttributeName: labelFont])
         //TODO: Y轴的宽度
-        size.width += xOffset// * 2.0
+        size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))
         return size
